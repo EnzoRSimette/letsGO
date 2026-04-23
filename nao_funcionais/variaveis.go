@@ -2,7 +2,7 @@ package nao_funcionais
 
 import "fmt"
 
-func variaveis() {
+func main() {
 	// Em go, uma var é um nome para
 	// uma região específica na memória,
 	// scom tamanho fixo e conhecido na comp
@@ -78,12 +78,4 @@ func variaveis() {
 	type Pixel struct {
 		R, G, B uint8 // 3 bytes vs 24 bytes com int
 	}
-
-	// constantes -> Elas só existem na compilação, por isso, não ocupam memória nem ram depois da compilação
-	// ^ Muito bom para performance
-	// Tipadas vs Não-Tipadas
-	const x = 42      // Assume o tipo conforme contexto
-	const y int = 42  // bem definido
-	var a float64 = x // Pode, já que x não é tipado
-	var b float64 = y // Não pode, já que y é int
 }

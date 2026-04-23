@@ -82,7 +82,27 @@ func readFile(path string) ([]byte, error) {
 	defer fmt.Println("First deferred")  // Executado por ultimo (no caso o primeiro defer ali de cima é o ultimo, mas ignora)
 	defer fmt.Println("Second deferred") // Penúltimo
 	defer fmt.Println("Third deferred")  // Primeiro
+	// Custo: pequeno overhead por defer registrado.
+	// Em loops de alta frequência, evite defer dentro do loop —
+	// registre fora ou gerencie o recurso manualmente.
 	return io.ReadAll(f)
+}
+
+var paths []string // só para não crashar
+
+func otimizacaodefer() {
+	// Ruim em loop de alta performance
+	for _, path := range paths {
+		f, _ := os.Open(path)
+		defer f.Close() // Todos os defers acumulam até a func retornar
+	}
+
+	for _, path := range paths {
+		func() {
+			f, _ := os.Open(path)
+			defer f.Close() // Aqui ele retorna a cada loop por que executa  função anonima
+		}()
+	}
 }
 
 // ^ Em go, funções podem retornar mais de um valor! (isso faz com que não precise existir try catch)
