@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+	"os"
+)
 
 // Em go, assim como em js, funções são first-class
 // na prática, funcao1 é um ponteiro para uma função anonima
@@ -58,7 +62,30 @@ func processOrder(o Order) (id int, total float64, tax float64, err error) {
 	return // o que está sendo retornado aqui?
 }
 
-//^ Em go, funções podem retornar mais de um valor! (isso faz com que não precise existir try catch)
+// * Defer -> Faz com que algo sempre seja executado dentro da função:
+func readFile(path string) ([]byte, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close() // executado quando readFile retornar — sempre
+	//^ Nesse caso, ele sempre vai executar esse código assim que eu chamar readFIle
+	/*
+		O que acontece:
+		defer empilha a chamada em uma estrutura na stack frame da função.
+		Quando a função retorna — por qualquer caminho, incluindo panic
+		os defers são executados em ordem LIFO (último a entrar, primeiro a sair).
+		* Na prática, ele cria uma pilha de execução
+		* garantida assim que a função terminar em ordem LIFO
+	*/
+	// ex:
+	defer fmt.Println("First deferred")  // Executado por ultimo (no caso o primeiro defer ali de cima é o ultimo, mas ignora)
+	defer fmt.Println("Second deferred") // Penúltimo
+	defer fmt.Println("Third deferred")  // Primeiro
+	return io.ReadAll(f)
+}
+
+// ^ Em go, funções podem retornar mais de um valor! (isso faz com que não precise existir try catch)
 func divide(a, b float64) (float64, error) {
 	/*
 		Por baixo dos panos:
