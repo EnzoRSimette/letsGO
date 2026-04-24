@@ -1,6 +1,9 @@
 package nao_funcionais
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 func funcionamentoString(words []string) {
 	// Strings não são ponteiros simples, é uma estrutura de campos
@@ -38,4 +41,5 @@ func funcionamentoString(words []string) {
 		b.WriteString(word) // Vai concatenar as strings em b
 	}
 	result2 := b.String() // Transforma os bytes de b em string
+	fmt.Println(result2, s)
 }

@@ -16,7 +16,7 @@ func main() {
 	//! zero-values: Valores padrão para quando não tem definição da variável
 
 	x := 1
-	x := 2 // ERRO: no new variables on left side of :=
+	//x := 2 // ERRO: no new variables on left side of :=
 
 	y := 1
 	y, z := 2, 3
@@ -78,4 +78,5 @@ func main() {
 	type Pixel struct {
 		R, G, B uint8 // 3 bytes vs 24 bytes com int
 	}
+	fmt.Println(x, y, z, userID)
 }
