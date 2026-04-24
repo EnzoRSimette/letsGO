@@ -5,7 +5,7 @@ func contain(a []int, v int) bool { // vamos usar int para simplificar
 	for _, t := range a {
 		if t == v {
 			result = true
-			continue
+			break
 		} else {
 			result = false
 			continue
@@ -18,7 +18,7 @@ func unique(nums []int) []int {
 	result := make([]int, 0, len(nums)) // Ele aloca com len(nums) por que a quantidade máxima de elementos no resultado sempre
 	//  vai ser <= a quantide de elementos em um dos arrays
 	for _, v := range nums {
-		if contain(result, v) {
+		if contain(result, v) == true {
 			continue
 		} else {
 			result = append(result, v)
@@ -31,7 +31,7 @@ func unique(nums []int) []int {
 func intersect(a, b []int) []int {
 	result := make([]int, 0, len(a)) // Pode ser tanto a quanto b
 	for _, v := range a {            // aqui pode ser tanto a quanto b
-		if contain(b, v) {
+		if contain(b, v) == true {
 			result = append(result, v)
 		} else {
 			continue
